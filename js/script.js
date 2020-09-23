@@ -6,16 +6,41 @@
 
   d3.json('top.json').then(function(us) 
   {
-   
+    
+
   var
   width=1200,height=700,
   states = topojson.feature(us, us.objects.states),
-  counties = topojson.feature(us, us.objects.counties),
   projection = d3.geoAlbersUsa(),
   path = d3.geoPath(projection);
+
   
+  console.log(states.features[i].properties.name);
+  
+  var svg = d3.selectAll("#viz").append("svg")
+  .attr("width", 1300)
+  .attr("height", height)
+  .on("click", reset);
+
+var st= svg.append("g")
+.append("g")
+
+.attr("cursor", "pointer")
+.selectAll("path")
+.data(states.features)
+.attr("fill", "#444")
+.join("path")
+.on("click", clicked)
+.attr("d", path);
+
+st.append("title")
+      .text(d => d.properties.name);
 
 
+
+
+
+  /*
   var svg = d3.selectAll("#viz").append("svg")
     				.attr("width", 1300)
             .attr("height", height);
@@ -31,7 +56,7 @@
   .attr('stroke', 'grey')
   .attr('fill', 'none')
   .attr('stroke-width', 1);
-
+*/
     
   
   d3.csv("freq.csv").then( function(data) {
@@ -47,13 +72,43 @@
         return projection([d.lng, d.lat])[1];
       })
       .attr("r", function(d) {
-        return 1;
+        if((d.males+d.females)<30)
+        return 2;
+        else if((d.males+d.females)<100)
+        return 3.15;
+        else if((d.males+d.females)<200)
+        return 4.3;
+        else if((d.males+d.females)<300)
+        return 5.5;
+        else
+        return 8;
       })
         .style("fill", "rgb(217,91,67)")	
-        .style("opacity", 0.85)	});
+        .style("opacity", 0.60)
+        .append("title")
+      .text(d => d.city);	
+      });
 
   
+      function reset() {
+        st.transition().style("fill", null);
+        svg.transition().duration(750).call(
+          zoom.transform,
+          d3.zoomIdentity,
+          d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
+        );
+      }
 
+        function clicked(event, d) {
+          var [[x0, y0], [x1, y1]] = path.bounds(d);
+          d3.event.stopPropagation();
+          st.transition().style("fill", null);
+          d3.select(this).transition().style("fill", "blue");
+          
+        }
+      
+        
+      
 
 
   });
