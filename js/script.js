@@ -34,7 +34,10 @@
         states.features[j].properties.ratef = data[i].ratef;
         states.features[j].properties.males = data[i].males; 
         states.features[j].properties.females = data[i].females; 
-        states.features[j].properties.total = data[i].total; 
+        states.features[j].properties.total = data[i].total;
+        states.features[j].properties.age1 = data[i].age1; 
+        states.features[j].properties.age2 = data[i].age2; 
+        states.features[j].properties.age3 = data[i].age3; 
         break;
         }
         
@@ -49,6 +52,7 @@ var colors = d3.scaleLinear()
 
 
 setTimeout(() => {
+  var tempCol,tempOpc;
   var tooltip = d3.select('body')
 .append('div')
 .style('position', 'absolute')
@@ -63,8 +67,9 @@ setTimeout(() => {
   
   var active = d3.select(null);
   var svg = d3.selectAll("#viz").append("svg")
-  .attr("width", 1300)
+  .attr("width", width)
   .attr("height", height)
+  .style("background-color",'#fcf9d4')
   .on("click", stopped, true);
 
 
@@ -85,32 +90,45 @@ st.selectAll("path")
 
 .attr("d", path)
 .attr("fill", (d) => {
-      console.log(d.properties.rate);
-    return colors(d.properties.rate) ;
+    return colors(d.properties.ratem) ;
     }
     
 )
 .on('mouseover', function(d) {
   tooltip.transition().duration(200)
-    .style('opacity', .9)
+    .style('opacity', .75)
     .style('pointer-events', 'none')
 
   tooltip.html(
-    '<div style="font-weight: bold">' +'State:'+d.properties.name+'<br>Total Victims:'+d.properties.total+
-     '<br>Males:'+ d.properties.males + '<br>Females: '+d.properties.females +'</div>'
+    '<div style="font-weight: bold">' +'State: '+d.properties.name+'<br>Total Victims: '+d.properties.total+
+     '<br>Males: '+ d.properties.males + '<br>Females: '+d.properties.females + '<br>Aged <10: '+d.properties.age1+ '<br>Aged 13-17: '+d.properties.age2+ '<br>Aged 18+: '+d.properties.age3+     '</div>'
   )
-    .style('left', (d3.event.pageX +50) + 'px')
-    .style('top', (d3.event.pageY -30) + 'px')
-  tempColor = this.style.fill;
-  d3.select(this)
-    .style('fill', 'yellow')
+    .style('left', (d3.event.pageX +70) + 'px')
+    .style('top', (d3.event.pageY -50) + 'px');
+  
+    if(active.node() != this)
+    {
+    tempOpc = this.style.opacity; 
+    d3.select(this)
+    .style('opacity', '0.5');
+    }
+  
+    
 })
 .on('mouseout', function(d) {
   tooltip.html('')
-  d3.select(this)
-    .style('fill', tempColor)
+  
+  if(active.node() != this)
+    {
+   d3.select(this)
+    .style('opacity', tempOpc)}
+    else{
+
+      d3.select(this)
+    .style('opacity', '0.3')
+    }
 });
-;
+
 
 
 
@@ -131,25 +149,55 @@ st.selectAll("path")
       })
       .attr("r", function(d) {
         if((d.males+d.females)<30)
-        return 2.5;
+        return 1.5;
         else if((d.males+d.females)<100)
-        return 3.5;
+        return 2.5;
         else if((d.males+d.females)<200)
-        return 4.5;
+        return 4;
         else if((d.males+d.females)<300)
-        return 5.5;
+        return 7;
         else
-        return 6.5;
+        return 8.5;
       })
-        .style("fill", "rgb(217,91,67)")	
-        .style("opacity", 0.60)
-        .append("title")
-      .text(d => d.city);	
+        .style("fill", "#DC3220")	
+        .style("opacity", '0.7')
+        .on('mouseover', function(d) {
+          
+          tooltip.transition().duration(200)
+            .style('opacity', .9)
+            .style('pointer-events', 'none')
+        
+          tooltip.html(
+            '<div style="font-size: 0.8rem; font-weight: bold">' +'City: '+d.city+'<br>Total Victims: '+d.total+
+             '<br>Males: '+ d.males + '<br>Females: '+d.females +'</div>'
+          )
+            .style('left', (d3.event.pageX +50) + 'px')
+            .style('top', (d3.event.pageY -30) + 'px')
+          
+          d3.select(this)
+            .style('opacity', '1')
+        })
+        .on('mouseout', function(d) {
+          tooltip.html('')
+          d3.select(this)
+            .style('opacity', '0.7')
+        });	
       });
 
       function clicked(d) {
-        if (active.node() === this) return reset();
+        if (active.node() == this) 
+        {
+          
+          d3.select(this).transition().style("fill", tempCol).style("opacity", tempOpc);
+          return reset();
+
+        } 
+       else if(active!=null)
+        {
+          d3.select(active.node()).transition().style("fill", tempCol).style("opacity",tempOpc);   
+        }
         active.classed("active", false);
+        
         active = d3.select(this).classed("active", true);
         
       
@@ -160,9 +208,12 @@ st.selectAll("path")
             y = (bounds[0][1] + bounds[1][1]) / 2,
             scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
             translate = [width / 2 - scale * x, height / 2 - scale * y];
-
+            tempCol = this.style.fill;
+            
             st.transition().style("fill", null);
-            d3.select(this).transition().style("fill", "red");
+           
+            d3.select(this).transition().style("fill", "#005AB5").style("opacity",'0.3');
+            
         svg.transition()
             .duration(750)
             // .call(zoom.translate(translate).scale(scale).event); // not in d3 v4
@@ -172,7 +223,7 @@ st.selectAll("path")
       function reset() {
         active.classed("active", false);
         active = d3.select(null);
-      
+        st.transition().style("fill", null);
         svg.transition()
             .duration(750)
             // .call( zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1) ); // not in d3 v4
