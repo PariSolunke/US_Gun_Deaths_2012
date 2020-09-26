@@ -9,7 +9,7 @@
     
 
   var
-  width=1000,height=500,
+  width=900,height=500,
   states = topojson.feature(us, us.objects.states),
   projection = d3.geoAlbersUsa(),
   path = d3.geoPath(projection);
@@ -67,12 +67,14 @@ setTimeout(() => {
   
   var active = d3.select(null);
   var svg = d3.selectAll("#viz").append("svg")
-  .attr("width", width)
+  .attr("width", '74%')
   .attr("height", height)
-  .style("background-color",'#fcf9d4')
+  .style("margin","25 12%")
+  
+  .style("background-color",'#fcfce3')
   .on("click", stopped, true);
 
-
+console.log(window.innerWidth);
 
 var st= svg.append("g")
 

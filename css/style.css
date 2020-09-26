@@ -1,0 +1,15 @@
+.tooltip { pointer-events: none; }
+
+.container{
+    background: #252525;
+}
+body{
+    margin: 0%;
+}
+h2{
+    margin: 0%;
+    padding: 1%;
+    text-align: center;
+    color: #EEEEEE;
+    background: #353535;
+}
