@@ -1,15 +1,32 @@
 .tooltip { pointer-events: none; }
 
-.container{
-    background: #252525;
-}
 body{
     margin: 0%;
+    background: #353535;
+    padding: 1%;
 }
+
+
+#side{
+margin-top:35px;
+
+padding:1% 0%;
+border: 1px solid grey;
+display: inline-block;
+width: 23%;
+height: 490px;
+visibility:hidden;
+vertical-align: top;
+max-width: 500px;
+
+
+
+}
+
 h2{
     margin: 0%;
     padding: 1%;
     text-align: center;
     color: #EEEEEE;
-    background: #353535;
+    background: #252525;
 }

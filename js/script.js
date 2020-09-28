@@ -9,7 +9,7 @@
     
 
   var
-  width=900,height=500,
+  width=900,height=515,
   states = topojson.feature(us, us.objects.states),
   projection = d3.geoAlbersUsa(),
   path = d3.geoPath(projection);
@@ -52,7 +52,7 @@ var colors = d3.scaleLinear()
 
 
 setTimeout(() => {
-  var tempCol,tempOpc;
+  var tempCol,tempOpc,curType,children=0;
   var tooltip = d3.select('body')
 .append('div')
 .style('position', 'absolute')
@@ -66,15 +66,19 @@ setTimeout(() => {
   .on("zoom", zoomed);
   
   var active = d3.select(null);
-  var svg = d3.selectAll("#viz").append("svg")
-  .attr("width", '74%')
+  var svg = d3.selectAll("#viz").insert("svg",":first-child")
+  .attr("width", '73%')
   .attr("height", height)
-  .style("margin","25 12%")
+  .style("margin","0%")
+  .style("margin-right","2.5%")
+  .style("margin-top","35")
   
-  .style("background-color",'#fcfce3')
+  .style("background",'#fcfce3')
   .on("click", stopped, true);
 
-console.log(window.innerWidth);
+d3.selectAll("#side").style("visibility","visible");
+
+
 
 var st= svg.append("g")
 
@@ -150,19 +154,20 @@ st.selectAll("path")
         return projection([d.lng, d.lat])[1];
       })
       .attr("r", function(d) {
-        if((d.males+d.females)<30)
-        return 1.5;
-        else if((d.males+d.females)<100)
-        return 2.5;
-        else if((d.males+d.females)<200)
-        return 4;
-        else if((d.males+d.females)<300)
-        return 7;
-        else
+        if((d.total)<20)
+        return 1.2;
+        else if((d.total)<50)
+        return 3;
+        else if((d.total)<200)
+        return 5.5;
+        else if((d.total)<300)
         return 8.5;
+        else
+        return 9.5;
       })
         .style("fill", "#DC3220")	
         .style("opacity", '0.7')
+        .on("click",comparison)
         .on('mouseover', function(d) {
           
           tooltip.transition().duration(200)
@@ -171,7 +176,7 @@ st.selectAll("path")
         
           tooltip.html(
             '<div style="font-size: 0.8rem; font-weight: bold">' +'City: '+d.city+'<br>Total Victims: '+d.total+
-             '<br>Males: '+ d.males + '<br>Females: '+d.females +'</div>'
+             '<br>Males: '+ d.males + '<br>Females: '+d.females +'<br>Aged <10: '+d.age1+ '<br>Aged 13-17: '+d.age2+ '<br>Aged 18+: '+d.age3+'</div>'
           )
             .style('left', (d3.event.pageX +50) + 'px')
             .style('top', (d3.event.pageY -30) + 'px')
@@ -185,6 +190,179 @@ st.selectAll("path")
             .style('opacity', '0.7')
         });	
       });
+
+
+      function comparison(d)
+      { 
+        var frame = d3.select('#side').attr('class', 'frame');
+        var fw = frame.style("width").replace("px", "");
+        var margin = {top: 5, right: 0, bottom: 18, left: 28}
+        ,widthsvg = fw - margin.left - margin.right,
+        heightsvg = 230 - margin.top - margin.bottom;
+        var roughdata=[["Males",d.males],["Females",d.females],["Children",d.age1],["Teens",d.age2],["Adults",d.age3]];
+        var plotdata = roughdata.map(function(d) {
+          return {
+             Category: d[0],
+             Number: d[1]
+          };
+          
+      });
+     
+            
+       
+        var sidesvg1,sidesvg2;
+        if(children==0 || (children%2)==0)
+        {
+          if(children==0)
+          {
+          sidesvg1=d3.selectAll("#side")
+          .html("")
+          
+          .append("svg")
+          .attr("id","svg1")
+          .attr("width",widthsvg+margin.left+margin.right)
+          .attr("height",heightsvg+margin.top+margin.bottom)
+          .style('margin', '0')
+          .style('margin-bottom', '25')
+          .style('background', '#fcfce3')
+          .append("g");
+          }
+          else{
+            d3.selectAll("#svg1").remove();
+
+            sidesvg1=d3.selectAll("#side")
+            .insert("svg",":first-child")
+            .attr("id","svg1")
+            .attr("width",widthsvg+margin.left+margin.right)
+            .attr("height",heightsvg+margin.top+margin.bottom)
+            .style('margin', '0')
+            .style('margin-bottom', '25')
+            .style('background', '#fcfce3')
+            .append("g");
+
+          }
+          
+            
+          children++;
+         
+          var x = d3.scaleBand()
+            .range([ margin.left, widthsvg ])
+            .domain(plotdata.map(function(d) { return d.Category; }))
+                .padding(0.1);
+                
+                
+                
+          sidesvg1.append("g")
+          .attr("transform", "translate(0,"+(heightsvg+margin.top)+")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+                .attr("transform", "translate(14,0)")
+                .style("text-anchor", "end");
+           
+
+// Add Y axis
+          var y = d3.scaleLinear()
+            .domain([0, 400])
+            .range([ heightsvg, 0]);
+            
+
+        sidesvg1.append("g")
+        .attr("transform", "translate("+margin.left+","+margin.top+")")
+          .call(d3.axisLeft(y));
+
+// Bars
+sidesvg1.selectAll("mybar")
+  .data(plotdata)
+  .enter()
+  .append("rect")
+    .attr("x", function(d) { return x(d.Category); })
+    .attr("y", function(d) { return y(d.Number); })
+    .attr("width", x.bandwidth())
+    .attr("height", function(d) { return heightsvg+margin.top - y(d.Number); })
+    .attr("fill", "#69b3a2");
+
+    sidesvg1.append("text")
+    .attr("x", (widthsvg/2+10) )
+    .attr("y", 15)
+    .style("text-anchor", "middle")
+    .text(d.city);       
+ 
+  }
+        else if(children==1|| (children%2)==1)
+        {
+          if(children==1)
+          {   
+          sidesvg2=d3.selectAll("#side")
+          .append("svg")
+          .attr("id","svg2")
+          .attr("width",widthsvg+margin.left+margin.right)
+          .attr("height",heightsvg+margin.top+margin.bottom)
+          .style('margin', '0')
+          .style('background', '#fcfce3')
+          .append("g")
+          }
+          else{
+            d3.selectAll("#svg2").remove();
+
+            sidesvg2=d3.selectAll("#side")
+            .append("svg")
+            .attr("id","svg2")
+            .attr("width",widthsvg+margin.left+margin.right)
+            .attr("height",heightsvg+margin.top+margin.bottom)
+            .style('margin', '0')
+            .style('background', '#fcfce3')
+            .append("g");
+
+          }
+          
+            
+          children++;
+          
+         
+          var x = d3.scaleBand()
+            .range([ margin.left, widthsvg ])
+            .domain(plotdata.map(function(d) { return d.Category; }))
+                .padding(0.1);
+                
+                
+                
+          sidesvg2.append("g")
+          .attr("transform", "translate(0,"+(heightsvg+margin.top)+")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+                .attr("transform", "translate(14,0)")
+                .style("text-anchor", "end");
+           
+
+// Add Y axis
+          var y = d3.scaleLinear()
+            .domain([0, 400])
+            .range([ heightsvg, 0]);
+            
+
+        sidesvg2.append("g")
+        .attr("transform", "translate("+margin.left+","+margin.top+")")
+          .call(d3.axisLeft(y));
+
+// Bars
+sidesvg2.selectAll("mybar2")
+  .data(plotdata)
+  .enter()
+  .append("rect")
+    .attr("x", function(d) { return x(d.Category); })
+    .attr("y", function(d) { return y(d.Number); })
+    .attr("width", x.bandwidth())
+    .attr("height", function(d) { return heightsvg+margin.top - y(d.Number); })
+    .attr("fill", "#69b3a2");
+
+    sidesvg2.append("text")
+    .attr("x", (widthsvg/2+10) )
+    .attr("y", 15)
+    .style("text-anchor", "middle")
+    .text(d.city); 
+
+        }
+      }
 
       function clicked(d) {
         if (active.node() == this) 
