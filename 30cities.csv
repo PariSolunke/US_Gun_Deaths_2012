@@ -1,0 +1,31 @@
+,city,state,males,females,lat,lng,state_name,city_state,age1,age2,age3,total,population,rate
+29,Gary,IN,49,2,41.5927467,-87.3467803,Indiana,"Gary, Indiana",0,1,49,51,80000,63.75
+7,New Orleans,LA,146,17,29.9499323,-90.0701156,Louisiana,"New Orleans, Louisiana",4,8,143,163,391006,41.68733984
+24,St. Louis,MO,109,18,38.6272733,-90.1978889,Missouri,"St. Louis, Missouri",2,8,117,127,318064,39.92907088
+3,Detroit,MI,216,31,42.3486635,-83.0567375,Michigan,"Detroit, Michigan",2,7,228,247,672662,36.71977903
+5,Baltimore,MD,178,22,39.2909295,-76.6097684,Maryland,"Baltimore, Maryland",1,2,196,200,619493,32.28446488
+20,Newark,NJ,73,5,40.735657,-74.1723667,New Jersey,"Newark, New Jersey",0,5,73,78,282090,27.65074976
+26,Baton Rouge,LA,46,8,30.4507462,-91.154551,Louisiana,"Baton Rouge, Louisiana",1,4,49,54,221599,24.36834101
+30,Birmingham,AL,47,3,33.3881705,-86.89975258,Alabama,"Birmingham, Alabama",1,1,48,50,209880,23.82313703
+19,Cleveland,OH,65,14,41.4871888,-81.6778691,Ohio,"Cleveland, Ohio",1,7,69,79,383793,20.58401274
+13,Kansas City,MO,87,11,39.0844687,-94.5630298,Missouri,"Kansas City, Missouri",3,2,92,98,491918,19.92201952
+16,Oakland,CA,71,14,37.8043808,-122.2708166,California,"Oakland, California",2,8,75,85,429082,19.80973334
+10,Milwaukee,WI,91,13,43.0349931,-87.922497,Wisconsin,"Milwaukee, Wisconsin",1,9,93,104,592025,17.56682573
+1,Chicago,IL,384,24,41.8756208,-87.6243706,Illinois,"Chicago, Illinois",3,43,360,408,2706000,15.07760532
+11,Washington DC,DC,96,8,38.8951148,-77.0363716,Dist. of Columbia,"Washington, Dist. of Columbia",0,2,102,104,705749,14.73611723
+14,Memphis,TN,82,10,35.1490215,-90.0516285,Tennessee,"Memphis, Tennessee",2,6,77,92,650618,14.14040189
+8,Indianapolis,IN,104,14,39.7683795,-86.1580447,Indiana,"Indianapolis, Indiana",1,5,109,118,876862,13.45707762
+23,Atlanta,GA,60,6,33.7490987,-84.3901849,Georgia,"Atlanta, Georgia",1,1,59,66,498044,13.2518412
+25,Miami,FL,53,9,25.7742658,-80.1936589,Florida,"Miami, Florida",2,5,49,62,470914,13.16588592
+6,Philadelphia,PA,189,11,39.952335,-75.163789,Pennsylvania,"Philadelphia, Pennsylvania",1,5,190,200,1584000,12.62626263
+22,Las Vegas,NV,60,15,36.145204,-115.1611806,Nevada,"Las Vegas, Nevada",0,6,68,75,644644,11.6343284
+15,Columbus,OH,85,6,39.9622601,-83.0007065,Ohio,"Columbus, Ohio",1,4,86,91,892533,10.19570145
+4,Houston,TX,204,32,29.9519265,-95.54091698,Texas,"Houston, Texas",2,13,212,236,2323000,10.1592768
+17,Jacksonville,FL,67,14,30.3321838,-81.655651,Florida,"Jacksonville, Florida",0,3,78,81,903889,8.961277325
+28,Oklahoma City,OK,46,6,35.4707419,-97.5198806,Oklahoma,"Oklahoma City, Oklahoma",1,2,46,52,649021,8.012067406
+9,Dallas,TX,90,14,32.7801052,-96.8000082,Texas,"Dallas, Texas",1,4,97,104,1345000,7.732342007
+2,Los Angeles,CA,286,17,34.0501713,-118.2419714,California,"Los Angeles, California",1,15,286,303,3990000,7.593984962
+12,Phoenix,AZ,84,16,33.361168,-112.1213022,Arizona,"Phoenix, Arizona",0,11,87,100,1650000,6.060606061
+27,Charlotte,NC,47,5,35.3314525,-80.93985542,North Carolina,"Charlotte, North Carolina",0,3,47,52,872498,5.959899048
+21,San Antonio,TX,64,12,29.4246002,-98.4951405,Texas,"San Antonio, Texas",0,4,69,76,1453000,5.230557467
+18,Brooklyn,NY,74,6,40.6501038,-73.9495823,New York,"Brooklyn, New York",2,1,76,80,2533000,3.158310304

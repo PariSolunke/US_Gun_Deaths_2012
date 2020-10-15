@@ -6,24 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Visualization</title>
     <link href="css/style.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="//d3js.org/topojson.v2.min.js"></script>
+    
+    <script type="text/javascript"  src="js/script.js"></script>
+ 
   </head>
   <body>
-    <h2>U.S. Gun Deaths</h2>
+    <header>
+            
+      <h1>U.S. Gun Deaths</h1>
+      <nav>
+          <a href="#" class="current">Home</a>
+          <a href="about.html">About</a>
+          
+      </nav>
+  </header>
     
 
-      
-
-      <div id="viz">
-
-        <div id="side"><div style="color: white;text-align: center;font-weight: bold;">Click on city bubbles to add & compare details<br>Tip: Click on a state to zoom</div> </div>
+      <div id="filters" style="color: white;text-align: center; margin-top: 10px; margin-bottom: 0px;" >Filter by:<input type="radio" id="gender" name="type" value="gender"  checked>
+        <label for="gender" style="margin-bottom: 0px;">Gender</label>
+        <input type="radio" id="normcities" name="type" value="normcities" style= "margin-bottom: 0px;" >
+        <label for="normcities" style="margin-bottom: 0px;"> Top 30 Cities Population Normalized</label>
+        <label for="Genders" style="margin-left: 5%;margin-bottom: 0px;" id="genderlabel">Choose Gender</label>
+        <select name="Genders" id="genderselect" style="margin-bottom: 5px;">
+           
+          <option value="all" style="margin-bottom: 0px;" selected>All</option>
+          <option value="male" style="margin-bottom: 0px;">Male</option>
+          <option value="female" style="margin-bottom: 0px;">Female</option>
+          
+        </select>
+        </div>
+        <span style="color: white; margin-top:5px; margin-left:5px;">State colors: Normalized Rate of Gun Deaths/100,000 population </span>  
+      <div id="viz" style="margin-top: 0;" > 
+   
+        <div id="side"><div style="color: white;text-align: center;font-weight: bold;">Click on city bubbles to pin cities here & compare details<br><br>Tip: Click on a state to zoom</div> </div>
       </div>
       
 
       
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="//d3js.org/topojson.v2.min.js"></script>
-
-    <script src="js/script.js"></script>
+  
   </body>
 </html>
