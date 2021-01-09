@@ -2,10 +2,11 @@ d3.json('top.json').then(function(us)
   {
     
 
-  var
-  width=900,height=515,
+    let box = document.querySelector('#container1');
+    let width = 0.98*box.clientWidth;
+  var height=700,
   states = topojson.feature(us, us.objects.states),
-  projection = d3.geoAlbersUsa(),
+  projection = d3.geoAlbersUsa().fitSize([width, height], states),
   path = d3.geoPath(projection);
 
   
@@ -61,11 +62,9 @@ setTimeout(() => {
   
   var active = d3.select(null);
   var svg = d3.selectAll("#viz").insert("svg",":first-child")
-  .attr("width", '73%')
+  .attr("width", width)
   .attr("height", height)
   .style("margin","0%")
-  .style("margin-right","2.5%")
-  .style("margin-top","8")
   
   .style("background",'#fcfce3')
   .on("click", stopped, true);
@@ -77,8 +76,7 @@ d3.selectAll("#side").style("visibility","visible");
 var st= svg.append("g")
 
 
-svg.call(zoom); // delete this line to disable free zooming
-    // .call(zoom.event); // not in d3 v4
+svg.call(zoom); 
 
 
 st.selectAll("path")
@@ -132,7 +130,7 @@ function dispLegend() {
   .range(['#CCCCCC','#000000']);
 
   var legendWidth = 100,
-      legendHeight = 400;
+      legendHeight = 600;
 
   var svg = d3.select("#viz>svg")
  
@@ -239,7 +237,7 @@ function normCities()
             .style('pointer-events', 'none')
         
           tooltip.html(
-            '<div style="font-size: 0.8rem; font-weight: bold">' +'City: '+d.city+'<br>RATE: '+d.rate+'<br>Total Victims: '+d.total+
+            '<div style=" font-weight: bold">' +'City: '+d.city+'<br>RATE: '+d.rate+'<br>Total Victims: '+d.total+
              '<br>Males: '+ d.males + '<br>Females: '+d.females +'<br>Aged <10: '+d.age1+ '<br>Aged 13-17: '+d.age2+ '<br>Aged 18+: '+d.age3+'</div>'
           )
             .style('left', (d3.event.pageX +50) + 'px')
@@ -333,7 +331,7 @@ function allCities(curFilter)
             .style('pointer-events', 'none')
         
           tooltip.html(
-            '<div style="font-size: 0.8rem; font-weight: bold">' +'City: '+d.city+'<br>Total Victims: '+d.total+
+            '<div style=" font-weight: bold">' +'City: '+d.city+'<br>Total Victims: '+d.total+
              '<br>Males: '+ d.males + '<br>Females: '+d.females +'<br>Aged <10: '+d.age1+ '<br>Aged 13-17: '+d.age2+ '<br>Aged 18+: '+d.age3+'</div>'
           )
             .style('left', (d3.event.pageX +50) + 'px')
@@ -352,11 +350,11 @@ function allCities(curFilter)
 
       function comparison(d)
       { 
-        var frame = d3.select('#side').attr('class', 'frame');
-        var fw = frame.style("width").replace("px", "");
-        var margin = {top: 5, right: 0, bottom: 18, left: 28}
+        let box2 = document.querySelector('#side');
+        let fw = box2.clientWidth;
+        var margin = {top: 5, right: 0, bottom: 18, left: 30}
         ,widthsvg = fw - margin.left - margin.right,
-        heightsvg = 230 - margin.top - margin.bottom;
+        heightsvg = 340 - margin.top - margin.bottom;
         var roughdata=[["Males",d.males],["Females",d.females],["Children",d.age1],["Teens",d.age2],["Adults",d.age3]];
         var plotdata = roughdata.map(function(d) {
           return {
@@ -378,10 +376,8 @@ function allCities(curFilter)
           
           .append("svg")
           .attr("id","svg1")
-          .attr("width",widthsvg+margin.left+margin.right)
+          .attr("width",widthsvg)
           .attr("height",heightsvg+margin.top+margin.bottom)
-          .style('margin', '0')
-          .style('margin-bottom', '25')
           .style('background', '#fcfce3')
           .append("g");
           }
@@ -391,10 +387,8 @@ function allCities(curFilter)
             sidesvg1=d3.selectAll("#side")
             .insert("svg",":first-child")
             .attr("id","svg1")
-            .attr("width",widthsvg+margin.left+margin.right)
+            .attr("width",widthsvg)
             .attr("height",heightsvg+margin.top+margin.bottom)
-            .style('margin', '0')
-            .style('margin-bottom', '25')
             .style('background', '#fcfce3')
             .append("g");
 
@@ -453,7 +447,7 @@ sidesvg1.selectAll("mybar")
           sidesvg2=d3.selectAll("#side")
           .append("svg")
           .attr("id","svg2")
-          .attr("width",widthsvg+margin.left+margin.right)
+          .attr("width",widthsvg)
           .attr("height",heightsvg+margin.top+margin.bottom)
           .style('margin', '0')
           .style('background', '#fcfce3')
@@ -465,7 +459,7 @@ sidesvg1.selectAll("mybar")
             sidesvg2=d3.selectAll("#side")
             .append("svg")
             .attr("id","svg2")
-            .attr("width",widthsvg+margin.left+margin.right)
+            .attr("width",widthsvg)
             .attr("height",heightsvg+margin.top+margin.bottom)
             .style('margin', '0')
             .style('background', '#fcfce3')
@@ -575,7 +569,7 @@ sidesvg2.selectAll("mybar2")
       }
       
       // If the drag behavior prevents the default click,
-      // also stop propagation so we don’t click-to-zoom.
+      // also stop propagation so we donâ€™t click-to-zoom.
       function stopped() {
         if (d3.event.defaultPrevented) d3.event.stopPropagation();
       }

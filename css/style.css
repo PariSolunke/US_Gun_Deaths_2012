@@ -54,22 +54,17 @@ header h1{
     }
     
   #viz{
-      margin-left:5px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
   }
 
+  
 #side{
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-margin-top:8px;
-
-padding:1% 0%;
 border: 1px solid grey;
-display: inline-block;
-width: 23%;
-height: 490px;
+height: 700px;
 visibility:hidden;
-vertical-align: top;
-max-width: 500px;
 
 
 
