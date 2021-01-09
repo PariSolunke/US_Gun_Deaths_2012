@@ -1,3 +1,5 @@
+$(function() {
+
 d3.json('top.json').then(function(us) 
   {
     
@@ -576,11 +578,11 @@ sidesvg2.selectAll("mybar2")
       
        
       
-    }, 1150);
+    }, 100);
 
   });
   
-
+});
   
   
   
